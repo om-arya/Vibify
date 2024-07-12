@@ -1,17 +1,16 @@
 #!/bin/bash
 
+echo "Starting Fast API server..."
+cd backend
+python3 main.py
+BACKEND_PID=$!
+
+sleep 2
+
 echo "Starting React Native application..."
-cd frontend
+cd ../frontend
 npm run ios &
 FRONTEND_PID=$!
 
-sleep 3
-
-echo "Starting Django server..."
-source backend/bin/activate
-cd ../backend/vibify
-python3 manage.py runserver
-BACKEND_PID=$!
-
-wait $FRONTEND_PID
 wait $BACKEND_PID
+wait $FRONTEND_PID
