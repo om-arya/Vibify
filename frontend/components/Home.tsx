@@ -1,11 +1,19 @@
 import React from 'react';
-import { StyleSheet, Text, View, ScrollView } from 'react-native';
+import { View, Pressable } from 'react-native';
+import styles from '../styles/HomeStyles';
 
-const Home: React.FC = () => {
+import Navbar from './Navbar';
+
+const Home: React.FC<any> = ({ navigator }) => {
+    function openVibeMaker() {
+        
+    }
+
     return (
-        <ScrollView>
-            <Text>Hello!</Text>
-        </ScrollView>
+        <View style={styles.home}>
+            <Pressable onPressOut={() => openVibeMaker()}></Pressable>
+            <Navbar />
+        </View>
     )
 }
 

@@ -1,9 +1,11 @@
 import React from 'react';
-import { StyleSheet, Text, View, ScrollView } from 'react-native';
+import { Text, View, ScrollView } from 'react-native';
+import styles from '../styles/VibeMakerStyles';
+
 
 const VibeMaker: React.FC = () => {
     return (
-        <ScrollView>
+        <ScrollView style={styles.vibeMaker}>
             <Text>Hello!</Text>
         </ScrollView>
     )
