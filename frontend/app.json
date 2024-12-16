@@ -1,0 +1,33 @@
+{
+  "expo": {
+    "name": "Vibify",
+    "slug": "vibify",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/pink-lines.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/vibify-logo.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/vibify-logo.png",
+        "backgroundColor": "#ffffff"
+      }
+    },
+    "web": {
+      "favicon": "./assets/pink-lines.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "8aa4f446-2015-4248-9d21-2a412b1cef67"
+      }
+    },
+    "owner": "omarya"
+  }
+}
