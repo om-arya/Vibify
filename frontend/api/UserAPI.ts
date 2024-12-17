@@ -13,7 +13,7 @@ export interface User {
 }
 
 const UserAPI = () => {
-
     const state = SessionState();
-
 }
+
+export default UserAPI;

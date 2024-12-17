@@ -5,7 +5,7 @@ cd backend
 python3 manage.py runserver
 BACKEND_PID=$!
 
-sleep 5
+sleep 3
 
 echo "Starting React Native application..."
 cd ../frontend

@@ -1,11 +1,29 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Pressable } from 'react-native';
 import styles from '../styles/MainStyles';
 
-const Navbar: React.FC = () => {
+interface NavbarProps {
+    navigation: any,
+}
+
+function Navbar({ navigation }: NavbarProps) {
+    function openHome() {
+        navigation.navigate("Home");
+    }
+
+    function openLibrary() {
+        navigation.navigate("Library");
+    }
+
     return (
-        <View style={styles.navbar}>
-            
+        <View style={ styles.navbar }>
+            <Pressable onPressOut={ () => openHome() }>
+                <Text style={ styles.navbarText }>Home</Text>
+            </Pressable>
+
+            <Pressable onPressOut={ () => openLibrary() }>
+                <Text style={ styles.navbarText }>Library</Text>
+            </Pressable>
         </View>
     )
 }

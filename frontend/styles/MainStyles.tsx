@@ -13,6 +13,10 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         backgroundColor: "black"
     },
+
+    navbarText: {
+        color: "white",
+    },
 })
 
 export default styles;

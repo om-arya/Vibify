@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
-    home: {
+    library: {
         display: "flex",
         flexDirection: "column",
         height: "100%",
@@ -13,14 +13,6 @@ const styles = StyleSheet.create({
     text: {
         color: "black",
     },
-
-    /* VIBE MAKER */
-
-    vibeMaker: {
-        display: "flex",
-        height: "100%",
-        backgroundColor: "white",
-    }
 })
 
 export default styles;
