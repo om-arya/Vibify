@@ -2,7 +2,7 @@
 
 echo "Starting Django server..."
 cd backend
-python3 python3 manage.py runserver
+python3 manage.py runserver
 BACKEND_PID=$!
 
 sleep 5
