@@ -8,7 +8,7 @@ interface LoginPanelProps {
 
 function LoginPanel({ navigation }: LoginPanelProps) {
     function closeLoginPanel() {
-        navigation.navigate("AccountPanel");
+        navigation.navigate("Account");
     }
 
     return (

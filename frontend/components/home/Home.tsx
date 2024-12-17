@@ -36,7 +36,7 @@ function Home({ navigation }: HomeProps) {
     }
 
     function openAccountPanel() {
-        navigation.navigate("AccountPanel");
+        navigation.navigate("Account");
     }
 
     return (

@@ -8,7 +8,7 @@ interface DeleteAccountPanelProps {
 
 function DeleteAccountPanel({ navigation }: DeleteAccountPanelProps) {
     function closeDeleteAccountPanel() {
-        navigation.navigate("AccountPanel");
+        navigation.navigate("Account");
     }
 
     return (

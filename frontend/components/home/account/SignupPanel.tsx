@@ -8,7 +8,7 @@ interface SignupPanelProps {
 
 function SignupPanel({ navigation }: SignupPanelProps) {
     function closeSignupPanel() {
-        navigation.navigate("AccountPanel");
+        navigation.navigate("Account");
     }
 
     return (

@@ -17,11 +17,13 @@ function App() {
     <NavigationContainer>
        <Stack.Navigator initialRouteName="Home">
           <Stack.Screen name="Home" component={ Home } options={{ headerShown: false }} />
-          <Stack.Screen name="AccountPanel" component={ AccountPanel } options={{ headerShown: false }} />
-          <Stack.Screen name="LoginPanel" component={ LoginPanel } options={{ headerShown: false }} />
-          <Stack.Screen name="VibeMaker" component={ VibeMaker } options={{ headerShown: false }} />
+          <Stack.Screen name="Account" component={ AccountPanel } options={{ headerShown: false }} />
+          <Stack.Screen name="Signup" component={ SignupPanel } options={{ headerShown: false, presentation: 'modal' }} />
+          <Stack.Screen name="Login" component={ LoginPanel } options={{ headerShown: false, presentation: 'modal' }} />
+          <Stack.Screen name="DeleteAccount" component={ DeleteAccountPanel } options={{ headerShown: false, presentation: 'modal' }} />
+          <Stack.Screen name="VibeMaker" component={ VibeMaker } options={{ headerShown: false, presentation: 'modal' }} />
 
-          <Stack.Screen name="Library" component={ Library } options={{ headerShown: false }} />
+          <Stack.Screen name="Library" component={ Library } options={{ headerShown: false, animation: 'none' }} />
        </Stack.Navigator>
     </NavigationContainer>
   );

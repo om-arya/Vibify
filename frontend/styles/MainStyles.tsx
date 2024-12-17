@@ -7,14 +7,22 @@ const styles = StyleSheet.create({
         bottom: 0,
         left: 0,
         display: "flex",
+        flexDirection: "row",
+        gap: 50,
         width: "100%",
-        height: 100,
+        height: 80,
         alignItems: "center",
         justifyContent: "center",
-        backgroundColor: "black"
+        backgroundColor: "black",
     },
 
-    navbarText: {
+    navbarButton: {
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+    },
+
+    navbarButtonLabel: {
         color: "white",
     },
 })

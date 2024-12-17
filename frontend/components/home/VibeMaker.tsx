@@ -66,7 +66,7 @@ function VibeMaker({ navigation }: VibeMakerProps) {
 
                     { colors.map((color) => (
                         <Pressable
-                            key={`color-${color} ${vibeColor === color ? "active" : ""}`}
+                            key={`color-${color}`}
                             onPressOut={ () => setVibeColor(color) }>
                         </Pressable>
                     )) }
