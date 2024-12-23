@@ -12,7 +12,7 @@ function LoginPanel({ navigation }: LoginPanelProps) {
     }
 
     return (
-        <View>
+        <View style={ styles.loginPanel }>
             <Pressable onPressOut={ () => closeLoginPanel() }>
                 <Text>
                     ← Back

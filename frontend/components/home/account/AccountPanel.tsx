@@ -24,7 +24,7 @@ function AccountPanel({ navigation }: AccountPanelProps) {
     }
 
     return (
-        <View>
+        <View style={ styles.accountPanel }>
             <Pressable onPressOut={ () => closeAccountPanel() }>
                 <Text>
                     ← Back

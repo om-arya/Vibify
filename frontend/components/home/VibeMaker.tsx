@@ -38,11 +38,13 @@ function VibeMaker({ navigation }: VibeMakerProps) {
     return (
         <>
             <View style={ styles.vibeMaker }>
-                <Pressable onPressOut={ () => closeVibeMaker() }>
-                    <Text>
-                        ← Back
-                    </Text>
-                </Pressable>
+                <View style={ styles.vibeMakerTopBar }>
+                    <Pressable onPressOut={ () => closeVibeMaker() }>
+                        <Text>
+                            ← Back
+                        </Text>
+                    </Pressable>
+                </View>
 
                 <View>
                     <Text>
@@ -81,8 +83,9 @@ function VibeMaker({ navigation }: VibeMakerProps) {
                                onChangeText={ (text) => setVibePrompt(text) }/>
                 </View>
 
-                <Pressable onPressOut={ () => createVibe() }>
-                    <Text>
+                <Pressable style={ styles.makeItButton }
+                           onPressOut={ () => createVibe() }>
+                    <Text style={ styles.makeItButtonText }>
                         Make It!
                     </Text>
                 </Pressable>

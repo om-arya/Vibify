@@ -1,10 +1,12 @@
 import React from 'react';
 import { View, Text, Pressable } from 'react-native';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import styles from '../../styles/HomeStyles';
 
 import { Vibe } from '../../api/VibeAPI';
 
 import Navbar from '../Navbar';
+import VibeCard from './VibeCard';
 
 interface HomeProps {
     navigation: any;
@@ -42,14 +44,16 @@ function Home({ navigation }: HomeProps) {
     return (
         <>
             <View style={ styles.home }>
-                <Pressable onPressOut={ () => openAccountPanel() }>
-                    <Text>
-                        Account
-                    </Text>
-                </Pressable>
+                <View style={ styles.homeTopBar }>
+                    <Pressable style={ styles.accountButton }
+                            onPressOut={ () => openAccountPanel() }>
+                        <MaterialCommunityIcons name="account" size={ 24 } color="black" />
+                    </Pressable>
+                </View>
 
-                <Pressable onPressOut={ () => openVibeMaker() }>
-                    <Text>
+                <Pressable style={ styles.createVibeButton }
+                           onPressOut={ () => openVibeMaker() }>
+                    <Text style={ styles.createVibeButtonText }>
                         + Create Vibe
                     </Text>
                 </Pressable>
@@ -62,17 +66,7 @@ function Home({ navigation }: HomeProps) {
                     </View> }
 
                 { vibes.map((vibe) => (
-                    <View key={`vibe-${vibe.name}`}>
-                        <View>
-                            <Text>
-                                o_o
-                            </Text>
-                        </View>
-
-                        <Text>
-                            { vibe.name }
-                        </Text>
-                    </View>
+                    <VibeCard name={ vibe.name } color={ vibe.color } />
                 )) }
             </View>
 

@@ -12,7 +12,7 @@ function DeleteAccountPanel({ navigation }: DeleteAccountPanelProps) {
     }
 
     return (
-        <View>
+        <View style={ styles.deleteAccountPanel }>
             <Pressable onPressOut={ () => closeDeleteAccountPanel() }>
                 <Text>
                     ← Back

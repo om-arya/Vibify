@@ -12,7 +12,7 @@ function SignupPanel({ navigation }: SignupPanelProps) {
     }
 
     return (
-        <View>
+        <View style={ styles.signupPanel }>
             <Pressable onPressOut={ () => closeSignupPanel() }>
                 <Text>
                     ← Back
