@@ -11,6 +11,8 @@ all_danceabilities = pd.read_csv(song_data)['danceability'].tolist()
 all_energies = pd.read_csv(song_data)['energy'].tolist()
 all_valences = pd.read_csv(song_data)['valence'].tolist()
 
+playlist: list[str] = []
+
 """
 Get a list of random song IDs close to the given danceability, energy,
 and valence values (0.000 - 1.000). The list is sorted in descending
@@ -42,7 +44,8 @@ def make_playlist(d: float, e: float, v: float, count: int) -> list[str]:
             if len(playlist_dict) == count:
                 break
         threshold *= 1.04
-    return get_keylist_by_values_descending(playlist_dict)
+    playlist = get_keylist_by_values_descending(playlist_dict)
+    return playlist
 
 def get_keylist_by_values_descending(dictionary: dict):
     sorted_items = sorted(dictionary.items(), key=lambda x: x[1], reverse=True)
@@ -66,7 +69,7 @@ so that if the same songs are returned from multiple calls, they will not
 always be in the same relative order (since a set always hashes items in
 the same order).
 """
-def get_songs(playlist: list, count: int) -> set[str]:
+def get_songs(count: int) -> set[str]:
     if count > len(playlist):
         count = len(playlist)
 
@@ -80,6 +83,3 @@ def get_songs(playlist: list, count: int) -> set[str]:
     songs = list(songs)
     random.shuffle(songs)
     return songs
-
-songs = get_songs(make_playlist(.2, .3, .4, 1000), 200)
-print(songs)

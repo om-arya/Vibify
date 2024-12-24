@@ -7,3 +7,6 @@ db.sqlite3
 # Data and training
 *.csv
 *.pth
+
+# PostgreSQL
+secrets.py
