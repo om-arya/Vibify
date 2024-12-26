@@ -7,6 +7,8 @@ class VibeEntity(models.Model):
         db_table = "vibes"
         ordering = ["name"]
 
+    playlist_length = 100
+
     COLORS = {
         '#ff0000': 'red',
         '#008000': 'green',
@@ -20,10 +22,15 @@ class VibeEntity(models.Model):
     valence = models.FloatField()
     user = models.ForeignKey(UserEntity, on_delete=models.CASCADE)
 
-    playlist: list[str] = []
-
-    def initialize_playlist(self, count: int):
-        self.playlist = get_playlist(count, self.danceability, self.energy, self.valence)
-
     def get_random_song(self):
         return get_song(self.danceability, self.energy, self.valence)
+    
+    def initialize_playlist(self):
+        self.playlist = get_playlist(self.playlist_length, self.danceability, self.energy, self.valence)
+
+    def get_next_song(self):
+        next = self.playlist.pop()
+        if len(self.playlist == 0):
+            self.initialize_playlist()
+        return next
+    

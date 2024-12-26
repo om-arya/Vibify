@@ -17,7 +17,7 @@ valence values (0.000 - 1.000).
 The threshold for "closeness" to the input values is increased
 incrementally before re-looping through all available songs. There is no
 maximum limit to the threshold (except for valence), so as to ensure that
-the 'count' is met.
+a song is found.
 
 The closeness threshold is scaled down for energy, and scaled further
 down for valence, as these values are considered more significant to
@@ -40,16 +40,16 @@ def get_song(d: float, e: float, v: float) -> str:
 Get a list of random song IDs close to the given danceability, energy,
 and valence values (0.000 - 1.000).
 """
-def get_playlist(count: int, d: float, e: float, v: float) -> list[str]:
+def get_playlist(length: int, d: float, e: float, v: float) -> list[str]:
     playset: set[str] = set()
     threshold = .1
-    while len(playset) < count:
+    while len(playset) < length:
         for i in range(len(all_songs)):
             if (all_songs[i] not in playset and abs(all_danceabilities[i] - d) < threshold
                and abs(all_energies[i] - e) < .6 * threshold and abs(all_valences[i] - v) < min(.3 * threshold, .25)
                and ((v >= .5 and all_valences[i] >= .5) or (v <= .5 and all_valences[i] <= .5))):
-                    playset[all_songs[i]] = all_popularities[i]
-            if len(playset) == count:
+                    playset.add(all_songs[i])
+            if len(playset) == length:
                 break
         threshold *= 1.04
     return list(playset)
@@ -57,109 +57,32 @@ def get_playlist(count: int, d: float, e: float, v: float) -> list[str]:
 # TESTS
     
 import time
+import statistics
 
-total_start = time.time()
+length = 1
+maximum, minimum = 0, float("inf")
+max_dev, min_dev = None, None
+all_elapsed = []
+for d in range(1, 10):
+    for e in range(1, 10):
+        for v in range(1, 10):
+            start = time.time()
+            playlist = get_playlist(length, d / 10.0, e / 10.0, v / 10.0)
+            end = time.time()
 
-start1 = time.time()
-playlist1 = get_playlist(.2, .3, .4, 1)
-end1 = time.time()
+            elapsed = end - start
+            all_elapsed.append(elapsed)
+            print(f"Playlist (.{d}, .{e}, .{v}): {elapsed} seconds.")
 
-start2 = time.time()
-playlist2 = get_playlist(.1, .9, .1, 1)
-end2 = time.time()
+            if elapsed > maximum:
+                maximum = elapsed
+                max_dev = (d, e, v)
+            if elapsed < minimum:
+                minimum = elapsed
+                min_dev = (d, e, v)
 
-start3 = time.time()
-playlist3 = get_playlist(.9, .1, .9, 1)
-end3 = time.time()
-
-start4 = time.time()
-playlist4 = get_playlist(.9, .9, .1, 1)
-end4 = time.time()
-
-start5 = time.time()
-playlist5 = get_playlist(.1, .1, .9, 1)
-end5 = time.time()
-
-start6 = time.time()
-playlist6 = get_playlist(.1, .1, .1, 1)
-end6 = time.time()
-
-start7 = time.time()
-playlist7 = get_playlist(.9, .9, .9, 1)
-end7 = time.time()
-
-start8 = time.time()
-playlist8 = get_playlist(.9, .1, .1, 1)
-end8 = time.time()
-
-start9 = time.time()
-playlist9 = get_playlist(.1, .9, .9, 1)
-end9 = time.time()
-
-start10 = time.time()
-playlist10 = get_playlist(.5, .2, .6, 1)
-end10 = time.time()
-
-start11 = time.time()
-playlist11 = get_playlist(.2, .3, .4, 1)
-end11 = time.time()
-
-start12 = time.time()
-playlist12 = get_playlist(.1, .9, .1, 1)
-end12 = time.time()
-
-start13 = time.time()
-playlist13 = get_playlist(.9, .1, .9, 1)
-end13 = time.time()
-
-start14 = time.time()
-playlist14 = get_playlist(.9, .9, .1, 1)
-end14 = time.time()
-
-start15 = time.time()
-playlist15 = get_playlist(.1, .1, .9, 1)
-end15 = time.time()
-
-start16 = time.time()
-playlist16 = get_playlist(.1, .1, .1, 1)
-end16 = time.time()
-
-start17 = time.time()
-playlist17 = get_playlist(.9, .9, .9, 1)
-end17 = time.time()
-
-start18 = time.time()
-playlist18 = get_playlist(.9, .1, .1, 1)
-end18 = time.time()
-
-start19 = time.time()
-playlist19 = get_playlist(.1, .9, .9, 1)
-end19 = time.time()
-
-start20 = time.time()
-playlist20 = get_playlist(.5, .2, .6, 1)
-end20 = time.time()
-
-total_end = time.time()
-
-print(f"Playlist 1 created in {end1 - start1} seconds.")
-print(f"Playlist 2 created in {end2 - start2} seconds.")
-print(f"Playlist 3 created in {end3 - start3} seconds.")
-print(f"Playlist 4 created in {end4 - start4} seconds.")
-print(f"Playlist 5 created in {end5 - start5} seconds.")
-print(f"Playlist 6 created in {end6 - start6} seconds.")
-print(f"Playlist 7 created in {end7 - start7} seconds.")
-print(f"Playlist 8 created in {end8 - start8} seconds.")
-print(f"Playlist 9 created in {end9 - start9} seconds.")
-print(f"Playlist 10 created in {end10 - start10} seconds.")
-print(f"Playlist 11 created in {end11 - start11} seconds.")
-print(f"Playlist 12 created in {end12 - start12} seconds.")
-print(f"Playlist 13 created in {end13 - start13} seconds.")
-print(f"Playlist 14 created in {end14 - start14} seconds.")
-print(f"Playlist 15 created in {end15 - start15} seconds.")
-print(f"Playlist 16 created in {end16 - start16} seconds.")
-print(f"Playlist 17 created in {end17 - start17} seconds.")
-print(f"Playlist 18 created in {end18 - start18} seconds.")
-print(f"Playlist 19 created in {end19 - start19} seconds.")
-print(f"Playlist 20 created in {end20 - start20} seconds.")
-print(f"TOTAL: {total_end - total_start} seconds.")
+print(f"Maximum: {maximum} seconds for {max_dev}.")
+print(f"Minimum: {minimum} seconds for {min_dev}.")
+print(f"Median: {statistics.median(all_elapsed)} seconds.")
+print(f"Mean: {statistics.fmean(all_elapsed)} seconds.")
+print(f"St. Deviation: {statistics.stdev(all_elapsed)} seconds.")
