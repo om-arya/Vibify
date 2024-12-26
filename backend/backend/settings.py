@@ -1,10 +1,14 @@
 from pathlib import Path
-from secrets import KEY, PG_HOST, PG_NAME, PG_USER, PG_PASSWORD
+from secrets import app
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-SECRET_KEY = KEY
-DEBUG = False
-ALLOWED_HOSTS = []
+ROOT_URLCONF = 'backend.urls'
+WSGI_APPLICATION = 'backend.wsgi.application'
+STATIC_URL = 'static/'
+
+ALLOWED_HOSTS = ['127.0.0.1']
+SECRET_KEY = app['SECRET_KEY']
+DEBUG = True
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -25,8 +29,6 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'backend.urls'
-
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -43,21 +45,22 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'backend.wsgi.application'
-
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'HOST': PG_HOST,
-        'NAME': PG_NAME,
-        'USER': PG_USER,
-        'PASSWORD': PG_PASSWORD,
-        'PORT': '5432',
+        'HOST': app['HOST'],
+        'NAME': app['NAME'],
+        'USER': app['USER'],
+        'PASSWORD': app['PASSWORD'],
+        'PORT': app['PORT'],
         'CONN_MAX_AGE': None,
         'CONN_HEALTH_CHECKS': True,
     }
 }
+
+# https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
 AUTH_PASSWORD_VALIDATORS = [
@@ -75,19 +78,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
-
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.1/howto/static-files/
-STATIC_URL = 'static/'
-
-# Default primary key field type
-# https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
