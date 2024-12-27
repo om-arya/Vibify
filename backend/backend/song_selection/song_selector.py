@@ -1,4 +1,5 @@
-from song_selection.song_data import all_songs, all_danceabilities, all_energies, all_valences
+from backend.song_selection.song_data import all_songs, all_danceabilities, all_energies, all_valences
+import random
 
 """
 Get a random song ID close to the given danceability, energy, and
@@ -18,8 +19,9 @@ song must always be on the same side of the median as the input valence
 """
 def get_song(d: float, e: float, v: float) -> str:
     threshold = .1
+    seed = random.random(0, int(len(all_songs) * .9))
     while True:
-        for i in range(len(all_songs)):
+        for i in range(seed, len(all_songs)):
             if (abs(all_danceabilities[i] - d) < threshold and abs(all_energies[i] - e) < .6 * threshold
                 and abs(all_valences[i] - v) < min(.3 * threshold, .25)
                 and ((v >= .5 and all_valences[i] >= .5) or (v <= .5 and all_valences[i] <= .5))):

@@ -1,8 +1,4 @@
-from transformers import pipeline
 from enum import Enum
-
-# https://huggingface.co/SamLowe/roberta-base-go_emotions
-classifier = pipeline(task="text-classification", model="SamLowe/roberta-base-go_emotions", top_k=None)
 
 class Correlation(Enum):
     STRONG_POS = 1
@@ -13,6 +9,8 @@ class Correlation(Enum):
     MODERATE_NEG = -.5
     STRONG_NEG = -1
 
+# Map each emotion to its correlation with danceability, energy,
+# and valence.
 emotion_map = {
     'admiration': ('WEAK_NEG', 'WEAK_POS', 'STRONG_POS'),
     'amusement': ('MODERATE_POS', 'NO_EFFECT', 'MODERATE_POS'),
@@ -43,21 +41,3 @@ emotion_map = {
     'surprise': ('MODERATE_POS', 'STRONG_POS', 'WEAK_POS'),
     'neutral': ('NO_EFFECT', 'NO_EFFECT', 'NO_EFFECT'),
 }
-
-def assign_music_parameters(input: str):
-    prompt = [f"I feel like \"{input}\" music"]
-
-    model_outputs = classifier(prompt)[0]
-    score_map = {}
-    for item in model_outputs:
-        score_map[item['label']] = item['score']
-    
-    d, e, v = .5, .5, .5
-    for emotion in emotion_map:
-        d_correlation, e_correlation, v_correlation = emotion_map[emotion]
-        d = min(d + (Correlation[d_correlation].value * score_map[emotion]), .9)
-        e = min(e + (Correlation[e_correlation].value * score_map[emotion]), .9)
-        v = min(v + (Correlation[v_correlation].value * score_map[emotion]), .9)
-
-    d, e, v = max(d, .1), max(e, .1), max(v, .1)
-    return (d, e, v)

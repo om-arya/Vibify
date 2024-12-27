@@ -20,5 +20,6 @@ def main():
 if __name__ == '__main__':
     main()
 
+# source .venv/bin/activate
 # python3.10 -m pip install ...
 # python3.10 [program.py]

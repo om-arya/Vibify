@@ -1,8 +1,9 @@
 __pycache__
 db.sqlite3
+migrations
 
 # Virtual environment
-.venv/
+.vibify
 
 # Data and training
 song_data.*
@@ -10,4 +11,4 @@ song_data.*
 *.pth
 
 # PostgreSQL
-secrets.py
+app.py

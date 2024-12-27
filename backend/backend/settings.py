@@ -1,5 +1,11 @@
 from pathlib import Path
-from secrets import app
+from app import app
+
+# TODO: CORS configuration
+# https://github.com/adamchainz/django-cors-headers
+
+# TODO: Integrate Memcached
+# https://docs.djangoproject.com/en/5.1/topics/cache/
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 ROOT_URLCONF = 'backend.urls'
@@ -17,6 +23,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'backend',
 ]
 
 MIDDLEWARE = [
@@ -61,22 +68,6 @@ DATABASES = {
 
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-# https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
-AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
-]
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
