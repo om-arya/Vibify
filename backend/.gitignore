@@ -5,6 +5,7 @@ db.sqlite3
 .venv/
 
 # Data and training
+song_data.*
 *.csv
 *.pth
 

@@ -1,7 +1,7 @@
 from django.http import HttpRequest, HttpResponse
 from django.contrib.auth.models import User as UserEntity
 from model.vibe_entity import VibeEntity
-from song_selection.song_selection import get_playlist
+from song_selection.song_selection import get_song, get_playlist
 
 # TODO: Store this in a real cache
 song_cache = {} # vibe ID : song list
