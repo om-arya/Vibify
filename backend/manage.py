@@ -19,3 +19,6 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+# python3.10 -m pip install ...
+# python3.10 [program.py]
