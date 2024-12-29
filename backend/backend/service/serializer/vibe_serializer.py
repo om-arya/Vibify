@@ -10,9 +10,3 @@ def to_json(vibe: VibeEntity) -> str:
             "\"energy\":" +  f"\"{vibe.energy}\",\n" +
             "\"valence\":" +  f"\"{vibe.valence}\",\n" +
             "\"user\":" +  f"\"{vibe.user.username}\"" + "}")
-
-"""
-Serialize the given list of vibes to a JSON string.
-"""
-def list_to_json(vibes: list[VibeEntity]) -> str:
-    return str(map(lambda vibe: to_json(vibe), vibes))
