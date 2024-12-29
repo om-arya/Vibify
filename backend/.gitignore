@@ -1,6 +1,9 @@
+# Django
 __pycache__
 db.sqlite3
 migrations
+
+.DS_Store
 
 # Virtual environment
 .vibify
