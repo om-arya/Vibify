@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User as UserEntity
-from backend.song_selection.song_selector import get_playlist, get_song
+from backend.music_recommendation.song_selection.song_selector import get_playlist, get_song
 
 class VibeEntity(models.Model):
     class Meta:

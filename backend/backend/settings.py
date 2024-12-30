@@ -1,9 +1,6 @@
 from pathlib import Path
 from app import app
 
-# TODO: CORS configuration
-# https://github.com/adamchainz/django-cors-headers
-
 # TODO: Integrate Memcached
 # https://docs.djangoproject.com/en/5.1/topics/cache/
 
@@ -12,7 +9,7 @@ ROOT_URLCONF = 'backend.urls'
 WSGI_APPLICATION = 'backend.wsgi.application'
 STATIC_URL = 'static/'
 
-ALLOWED_HOSTS = ['127.0.0.1']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 SECRET_KEY = app['SECRET_KEY']
 DEBUG = True
 
@@ -24,11 +21,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'backend',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    "corsheaders.middleware.CorsMiddleware",
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -52,6 +51,30 @@ TEMPLATES = [
     },
 ]
 
+# https://github.com/adamchainz/django-cors-headers
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:3000',
+]
+
+CORS_ALLOW_HEADERS = (
+    'accept',
+    'authorization',
+    'content-type',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
+    'withxsrftoken',
+)
+
+CORS_ALLOW_CREDENTIALS = True
+
+CSRF_TRUSTED_ORIGINS = [
+    'http://localhost:3000',
+]
+
+SESSION_COOKIE_SAMESITE = None
+CSRF_COOKIE_SAMESITE = None
+
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 DATABASES = {
     'default': {
@@ -69,7 +92,6 @@ DATABASES = {
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'

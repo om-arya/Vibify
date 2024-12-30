@@ -1,6 +1,11 @@
-from django.http import HttpRequest, HttpResponse
+from django.http import HttpRequest, HttpResponse, JsonResponse
+import backend.service.csrf_service as csrf_service
 import backend.service.user_service as user_service
 import backend.service.vibe_service as vibe_service
+
+def get_csrf_token(request: HttpRequest) -> JsonResponse:
+    if request.method == 'GET':
+        return csrf_service.get_csrf_token(request)
 
 def create_user(request: HttpRequest) -> HttpResponse:
     if request.method == 'POST':

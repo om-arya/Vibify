@@ -1,4 +1,4 @@
-from backend.song_selection.song_data import all_songs, all_danceabilities, all_energies, all_valences
+from backend.music_recommendation.song_selection.song_data import all_songs, all_danceabilities, all_energies, all_valences
 import random
 
 """

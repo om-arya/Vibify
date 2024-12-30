@@ -1,4 +1,4 @@
-from backend.vibe_parametrization.emotion_mapper import Correlation, emotion_map
+from backend.music_recommendation.vibe_parametrization.emotion_mapper import Correlation, emotion_map
 from transformers import pipeline
 
 # Text emotion classification model

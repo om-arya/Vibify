@@ -5,10 +5,9 @@ from django.contrib.auth.models import User as UserEntity
 from backend.models import VibeEntity
 from backend.service.serializer import vibe_serializer
 from django.core.serializers import serialize
-from django.db import transaction
 
-from backend.vibe_parametrization.vibe_parametrizer import assign_music_parameters
-from backend.song_selection.song_selector import get_playlist
+from backend.music_recommendation.vibe_parametrization.vibe_parametrizer import assign_music_parameters
+from backend.music_recommendation.song_selection.song_selector import get_playlist
 
 # https://docs.djangoproject.com/en/5.1/topics/db/queries/
 # https://docs.djangoproject.com/en/5.1/topics/db/queries/#field-lookups

@@ -33,7 +33,7 @@ function Home({ navigation }: HomeProps) {
 
     const noVibesMessage = "You don't have any vibes!"
 
-    function openVibeMaker() {
+    async function openVibeMaker() {
         navigation.navigate("VibeMaker");
     }
 

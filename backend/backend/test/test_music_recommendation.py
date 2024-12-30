@@ -1,5 +1,5 @@
-from backend.vibe_parametrization.vibe_parametrizer import assign_music_parameters
-from backend.song_selection.song_selector import get_playlist
+from backend.music_recommendation.vibe_parametrization.vibe_parametrizer import assign_music_parameters
+from backend.music_recommendation.song_selection.song_selector import get_playlist
 import statistics
 import time
 

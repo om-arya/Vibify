@@ -1,19 +1,25 @@
 import axios from "axios";
 
-import SessionState from "../state/SessionState.ts";
+import { API_URL } from "../appSecrets.ts";
 
-const API_URL = "localhost:8000";
+const USER_URL = API_URL + 'users/'
 
 export interface User {
     username: string;
-    password: string;
+    email: string;
     firstName: string;
     lastName: string
-    emailAddress: string;
 }
 
 const UserAPI = () => {
-    const state = SessionState();
+    
+    async function createUser(username: string, email: string, password: string, firstName: string, lastName: string) {
+        const userQueryString = `username=${username}&email=${email}&password=${password}&first_name=${firstName}&last_name=${lastName}`;
+        const response = await axios.post(USER_URL + 'create_user/', userQueryString);
+        return response.data;
+    }
+
+    return { createUser }
 }
 
 export default UserAPI;
