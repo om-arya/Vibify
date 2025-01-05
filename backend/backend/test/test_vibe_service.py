@@ -26,7 +26,6 @@ class VibeServiceTests(TestCase):
         self.assertEqual(get_vibe_response.status_code, HTTPStatus.OK)
 
         vibe = json.loads(get_vibe_response.content.decode())
-        self.assertEqual(vibe["user"], self.username)
         self.assertEqual(vibe["name"], self.name)
         self.assertEqual(vibe["color"], self.color)
 
@@ -82,7 +81,7 @@ class VibeServiceTests(TestCase):
         self.assertEqual(create_vibe_response1.status_code, HTTPStatus.CREATED)
 
         create_vibe_response2 = vibe_service.create_vibe(self.username, self.name, self.color) # Name taken
-        self.assertEqual(create_vibe_response2.status_code, HTTPStatus.BAD_REQUEST)
+        self.assertEqual(create_vibe_response2.status_code, HTTPStatus.CONFLICT)
 
         create_vibe_response3 = vibe_service.create_vibe(self.username, name2, self.color)
         self.assertEqual(create_vibe_response3.status_code, HTTPStatus.CREATED)

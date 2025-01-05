@@ -3,8 +3,6 @@ import { View, Text, Pressable } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import styles from '../../styles/HomeStyles';
 
-import { Vibe } from '../../api/VibeAPI';
-
 import Navbar from '../Navbar';
 import VibeCard from './VibeCard';
 
@@ -16,24 +14,18 @@ function Home({ navigation }: HomeProps) {
     const samplevibe1: Vibe = {
         name: "Bob",
         color: "green",
-        danceability: 4,
-        energy: 5,
-        valence: 6,
     };
 
     const samplevibe2: Vibe = {
         name: "Steve",
         color: "red",
-        danceability: 9,
-        energy: 10,
-        valence: 8,
     };
 
     const vibes: Vibe[] = [samplevibe1, samplevibe2]; // TODO: Pull vibes from SessionState
 
     const noVibesMessage = "You don't have any vibes!"
 
-    async function openVibeMaker() {
+    function openVibeMaker() {
         navigation.navigate("VibeMaker");
     }
 

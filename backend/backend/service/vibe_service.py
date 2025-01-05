@@ -28,7 +28,7 @@ def create_vibe(username: str, name: str, color: str) -> HttpResponse:
     try:
         user = UserEntity.objects.get(username=username)
         if VibeEntity.objects.filter(user=user, name=name).exists():
-            return HttpResponse(f"Vibe with name '{name}' already exists for user '{username}'", status=HTTPStatus.BAD_REQUEST)
+            return HttpResponse(f"Vibe with name '{name}' already exists for user '{username}'", status=HTTPStatus.CONFLICT)
     except ObjectDoesNotExist:
         return HttpResponse(f"User '{username}' not found", status=HTTPStatus.NOT_FOUND)
     except Exception as e:

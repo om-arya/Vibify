@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import { Text, TextInput, View, Pressable } from 'react-native';
 import styles from '../../styles/HomeStyles';
 
-import { Vibe } from '../../api/VibeAPI';
-
 import Navbar from '../Navbar';
 
 interface VibeMakerProps {
@@ -25,10 +23,7 @@ function VibeMaker({ navigation }: VibeMakerProps) {
         // TODO: Pull danceability, energy, and valence from PyTorch
         const newVibe: Vibe = {
             name: vibeName,
-            color: vibeColor,
-            danceability: 0,
-            energy: 0,
-            valence: 0,
+            color: vibeColor
         };
 
         // TODO: Update state and DB

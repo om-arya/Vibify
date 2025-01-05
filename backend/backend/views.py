@@ -29,20 +29,6 @@ def get_user_by_email(request: HttpRequest) -> HttpResponse:
 
         return user_service.get_user_by_email(email)
 
-def set_user_first_name(request: HttpRequest) -> HttpResponse:
-     if request.method == 'POST':
-        username: str = request.POST.get('username')
-        new_first_name: str = request.POST.get('new_first_name')
-
-        return user_service.set_user_first_name(username, new_first_name)
-     
-def set_user_last_name(request: HttpRequest) -> HttpResponse:
-    if request.method == 'POST':
-        username: str = request.POST.get('username')
-        new_last_name: str = request.POST.get('new_last_name')
-
-        return user_service.set_user_last_name(username, new_last_name)
-
 def set_user_email(request: HttpRequest) -> HttpResponse:
     if request.method == 'POST':
         username: str = request.POST.get('username')
@@ -56,6 +42,20 @@ def set_user_password(request: HttpRequest) -> HttpResponse:
         new_password: str = request.POST.get('new_password')
 
         return user_service.set_user_password(username, new_password)
+    
+def set_user_first_name(request: HttpRequest) -> HttpResponse:
+    if request.method == 'POST':
+        username: str = request.POST.get('username')
+        new_first_name: str = request.POST.get('new_first_name')
+
+        return user_service.set_user_first_name(username, new_first_name)
+     
+def set_user_last_name(request: HttpRequest) -> HttpResponse:
+    if request.method == 'POST':
+        username: str = request.POST.get('username')
+        new_last_name: str = request.POST.get('new_last_name')
+
+        return user_service.set_user_last_name(username, new_last_name)
 
 def delete_user(request: HttpRequest) -> HttpResponse:
     if request.method == 'POST':
@@ -65,11 +65,11 @@ def delete_user(request: HttpRequest) -> HttpResponse:
 
 def create_vibe(request: HttpRequest) -> HttpResponse:
     if request.method == 'POST':
-        name: str = request.POST.get('name')
         username: str = request.POST.get('username')
+        name: str = request.POST.get('name')
         color: str = request.POST.get('color')
 
-        return vibe_service.create_vibe(name, color, username)
+        return vibe_service.create_vibe(username, name, color)
     
 def get_vibe(request: HttpRequest) -> HttpResponse:
     if request.method == 'GET':

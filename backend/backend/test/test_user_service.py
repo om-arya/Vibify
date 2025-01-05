@@ -93,10 +93,10 @@ class UserServiceTests(TestCase):
         self.assertEqual(create_user_response1.status_code, HTTPStatus.CREATED)
 
         create_user_response2 = user_service.create_user(self.username, email2, password2, first_name2, last_name2) # Username taken
-        self.assertEqual(create_user_response2.status_code, HTTPStatus.BAD_REQUEST)
+        self.assertEqual(create_user_response2.status_code, HTTPStatus.CONFLICT)
 
         create_user_response3 = user_service.create_user(username2, self.email, password2, first_name2, last_name2) # Email taken
-        self.assertEqual(create_user_response3.status_code, HTTPStatus.BAD_REQUEST)
+        self.assertEqual(create_user_response3.status_code, HTTPStatus.CONFLICT)
 
         create_user_response4 = user_service.create_user(username2, email2, password2, first_name2, last_name2)
         self.assertEqual(create_user_response4.status_code, HTTPStatus.CREATED)
