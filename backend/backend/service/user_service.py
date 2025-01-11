@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 from http import HTTPStatus
 from django.core.exceptions import ObjectDoesNotExist
-from django.contrib.auth.models import User as UserEntity
+from backend.models import UserEntity
 from backend.service.serializer import user_serializer
 
 # https://docs.djangoproject.com/en/5.1/topics/auth/default/#topic-authorization
@@ -21,42 +21,42 @@ def create_user(username: str, email: str, password: str, first_name: str, last_
             return HttpResponse(f"The email address '{email}' is in use", status=HTTPStatus.CONFLICT)
     except Exception as e:
         return HttpResponse(f"Caught exception: {e}", status=HTTPStatus.INTERNAL_SERVER_ERROR)
-    
-    new_user = UserEntity.objects.create_user(username=username, email=email, password=password, first_name=first_name, last_name=last_name)
 
+    UserEntity.objects.create_user(username=username, email=email, password=password, first_name=first_name, last_name=last_name)
+
+    return HttpResponse(f"User '{username}' created successfully", status=HTTPStatus.CREATED)
+
+"""
+Return the user if the given username and password are
+valid credentials. Otherwise, return an error.
+"""
+def authenticate_user_by_username(username: str, password: str) -> HttpResponse:
     try:
-        new_user.save()
-        return HttpResponse(f"User '{username}' created successfully", status=HTTPStatus.CREATED)
+        user = UserEntity.objects.authenticate(username=username, password=password)
+        if user:
+            user_json = user_serializer.to_json(user)
+            return HttpResponse(user_json, content_type="application/json", status=HTTPStatus.OK)
+        else:
+            return HttpResponse("Credentials are invalid", status=HTTPStatus.UNAUTHORIZED)
+    except ObjectDoesNotExist:
+        return HttpResponse(f"User with username '{username}' does not exist", status=HTTPStatus.NOT_FOUND)
     except Exception as e:
         return HttpResponse(f"Caught exception: {e}", status=HTTPStatus.INTERNAL_SERVER_ERROR)
 
 """
-Return the user with the given username.
-
-If the user is not found, return an error.
+Return the user if the given email and password are
+valid credentials. Otherwise, return an error.
 """
-def get_user_by_username(username: str) -> HttpResponse:
+def authenticate_user_by_email(email: str, password: str) -> HttpResponse:
     try:
-        user = UserEntity.objects.get(username=username)
-        user_json = user_serializer.to_json(user)
-        return HttpResponse(user_json, content_type="application/json", status=HTTPStatus.OK)
+        user = UserEntity.objects.authenticate(email=email, password=password)
+        if user:
+            user_json = user_serializer.to_json(user)
+            return HttpResponse(user_json, content_type="application/json", status=HTTPStatus.OK)
+        else:
+            return HttpResponse("Credentials are invalid", status=HTTPStatus.UNAUTHORIZED)
     except ObjectDoesNotExist:
-        return HttpResponse(f"User not found", status=HTTPStatus.NOT_FOUND)
-    except Exception as e:
-        return HttpResponse(f"Caught exception: {e}", status=HTTPStatus.INTERNAL_SERVER_ERROR)
-
-"""
-Return the user with the given email address.
-
-If the user is not found, return an error.
-"""
-def get_user_by_email(email: str) -> HttpResponse:
-    try:
-        user = UserEntity.objects.get(email=email)
-        user_json = user_serializer.to_json(user)
-        return HttpResponse(user_json, content_type="application/json", status=HTTPStatus.OK)
-    except ObjectDoesNotExist:
-        return HttpResponse(f"User not found", status=HTTPStatus.NOT_FOUND)
+        return HttpResponse(f"User with email '{email}' does not exist", status=HTTPStatus.NOT_FOUND)
     except Exception as e:
         return HttpResponse(f"Caught exception: {e}", status=HTTPStatus.INTERNAL_SERVER_ERROR)
     

@@ -1,3 +1,5 @@
+import { User } from "../UserAPI";
+
 const UserDeserializer = () => {
     /**
      * Deserialize the given user from its server

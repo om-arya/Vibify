@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, Pressable } from 'react-native';
-import styles from '../../../styles/HomeStyles';
+import styles from '../../styles/HomeStyles';
 
 interface SignupPanelProps {
     navigation: any,

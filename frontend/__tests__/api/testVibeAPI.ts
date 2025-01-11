@@ -1,16 +1,16 @@
 import { HttpStatusCode } from 'axios';
-import DjangoAPI from '../../client/api/DjangoAPI';
+import AuthAPI from '../../client/api/AuthAPI';
 import UserAPI from '../../client/api/UserAPI';
-import VibeAPI from '../../client/api/VibeAPI';
+import VibeAPI, { Vibe } from '../../client/api/VibeAPI';
 import ClientState from '../../client/ClientState';
 
-const djangoAPI = DjangoAPI();
+const authAPI = AuthAPI();
 const userAPI = UserAPI();
 const vibeAPI = VibeAPI();
 const state = ClientState();
 
 beforeAll(async () => {
-    await djangoAPI.acquireCsrfToken();
+    await authAPI.acquireCsrfToken();
 
     await userAPI.createUser({
         username: "bob123",
@@ -22,28 +22,13 @@ beforeAll(async () => {
     });
 });
 
-beforeEach(async () => {
-    // Reset the vibes state
-    await vibeAPI.getUserVibes({
-        updateState: true
-    });
-
-    const vibes = state.getVibes();
-    for (const vibe of vibes) {
-        await vibeAPI.deleteVibe({
-            name: vibe.name,
-            updateState: true
-        })
-    }
-})
-
 afterEach(async () => {
     // Reset the vibes state
     await vibeAPI.getUserVibes({
         updateState: true
     });
     
-    const vibes = state.getVibes();
+    const vibes: Vibe[] = state.getVibes();
     for (const vibe of vibes) {
         await vibeAPI.deleteVibe({
             name: vibe.name,

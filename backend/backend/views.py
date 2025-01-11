@@ -1,11 +1,12 @@
 from django.http import HttpRequest, HttpResponse, JsonResponse
-import backend.service.csrf_service as csrf_service
+import backend.service.auth_service as auth_service
 import backend.service.user_service as user_service
 import backend.service.vibe_service as vibe_service
+import backend.service.spotify_service as spotify_service
 
 def get_csrf_token(request: HttpRequest) -> JsonResponse:
     if request.method == 'GET':
-        return csrf_service.get_csrf_token(request)
+        return auth_service.get_csrf_token(request)
 
 def create_user(request: HttpRequest) -> HttpResponse:
     if request.method == 'POST':
@@ -17,17 +18,19 @@ def create_user(request: HttpRequest) -> HttpResponse:
 
         return user_service.create_user(username, email, password, first_name, last_name)
 
-def get_user_by_username(request: HttpRequest) -> HttpResponse:
+def authenticate_user_by_username(request: HttpRequest) -> HttpResponse:
     if request.method == 'GET':
         username: str = request.GET.get('username')
+        password: str = request.GET.get('password')
 
-        return user_service.get_user_by_username(username)
+        return user_service.authenticate_user_by_username(username, password)
 
-def get_user_by_email(request: HttpRequest) -> HttpResponse:
+def authenticate_user_by_email(request: HttpRequest) -> HttpResponse:
     if request.method == 'GET':
         email: str = request.GET.get('email')
+        password: str = request.GET.get('password')
 
-        return user_service.get_user_by_email(email)
+        return user_service.authenticate_user_by_email(email, password)
 
 def set_user_email(request: HttpRequest) -> HttpResponse:
     if request.method == 'POST':

@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, Pressable } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { Vibe } from '../../client/api/VibeAPI';
+import SpotifyAPI from '../../client/api/SpotifyAPI';
 import styles from '../../styles/HomeStyles';
 
 import Navbar from '../Navbar';
@@ -11,6 +13,8 @@ interface HomeProps {
 }
 
 function Home({ navigation }: HomeProps) {
+    const spotifyAPI = SpotifyAPI();
+
     const samplevibe1: Vibe = {
         name: "Bob",
         color: "green",
@@ -31,6 +35,16 @@ function Home({ navigation }: HomeProps) {
 
     function openAccountPanel() {
         navigation.navigate("Account");
+    }
+
+    async function openSpotifyAuthPage() {
+        const spotifyAuthURL = await spotifyAPI.getSpotifyAuthURL();
+        if (typeof spotifyAuthURL === 'number') {
+            // TODO: Error page
+            return;
+        }
+
+        window.location.href = spotifyAuthURL;
     }
 
     return (
@@ -58,7 +72,7 @@ function Home({ navigation }: HomeProps) {
                     </View> }
 
                 { vibes.map((vibe) => (
-                    <VibeCard name={ vibe.name } color={ vibe.color } />
+                    <VibeCard key={ vibe.name } name={ vibe.name } color={ vibe.color } />
                 )) }
             </View>
 

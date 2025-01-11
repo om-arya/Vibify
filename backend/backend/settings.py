@@ -1,5 +1,5 @@
 from pathlib import Path
-from app import app
+from backend.app import app
 
 # TODO: Integrate Memcached
 # https://docs.djangoproject.com/en/5.1/topics/cache/
@@ -29,7 +29,7 @@ MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     "corsheaders.middleware.CorsMiddleware",
     'django.middleware.common.CommonMiddleware',
-    # 'django.middleware.csrf.CsrfViewMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -88,6 +88,8 @@ DATABASES = {
         'CONN_HEALTH_CHECKS': True,
     }
 }
+
+AUTH_USER_MODEL = 'backend.UserEntity'
 
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

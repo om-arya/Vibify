@@ -19,26 +19,24 @@ class UserServiceTests(TestCase):
         delete_user_response = user_service.delete_user(self.username)
         self.assertEqual(delete_user_response.status_code, HTTPStatus.OK)
 
-    def test_user_read_success(self):
+    def test_user_authenticate_success(self):
         user_service.create_user(self.username, self.email, self.password, self.first_name, self.last_name)
 
-        get_user_by_username_response = user_service.get_user_by_username(self.username)
-        self.assertEqual(get_user_by_username_response.status_code, HTTPStatus.OK)
+        authenticate_user_by_username_response = user_service.authenticate_user_by_username(username=self.username, password=self.password)
+        self.assertEqual(authenticate_user_by_username_response.status_code, HTTPStatus.OK)
 
-        user_by_username = json.loads(get_user_by_username_response.content.decode())
+        user_by_username = json.loads(authenticate_user_by_username_response.content.decode())
         self.assertEqual(user_by_username["username"], self.username)
         self.assertEqual(user_by_username["email"], self.email)
-        self.assertNotEqual(user_by_username["password"], self.password) # Should be hashed
         self.assertEqual(user_by_username["first_name"], self.first_name)
         self.assertEqual(user_by_username["last_name"], self.last_name)
 
-        get_user_by_email_response = user_service.get_user_by_email(self.email)
-        self.assertEqual(get_user_by_email_response.status_code, HTTPStatus.OK)
+        authenticate_user_by_email_response = user_service.authenticate_user_by_email(email=self.email, password=self.password)
+        self.assertEqual(authenticate_user_by_email_response.status_code, HTTPStatus.OK)
         
-        user_by_email = json.loads(get_user_by_email_response.content.decode())
+        user_by_email = json.loads(authenticate_user_by_email_response.content.decode())
         self.assertEqual(user_by_email["username"], self.username)
         self.assertEqual(user_by_email["email"], self.email)
-        self.assertNotEqual(user_by_email["password"], self.password) # Should be hashed
         self.assertEqual(user_by_email["first_name"], self.first_name)
         self.assertEqual(user_by_email["last_name"], self.last_name)
 
@@ -64,21 +62,20 @@ class UserServiceTests(TestCase):
         set_user_password_response = user_service.set_user_password(self.username, new_password)
         self.assertEqual(set_user_password_response.status_code, HTTPStatus.OK)
 
-        get_user_by_username_response = user_service.get_user_by_username(self.username)
-        self.assertEqual(get_user_by_username_response.status_code, HTTPStatus.OK)
+        authenticate_user_by_username_response = user_service.authenticate_user_by_username(username=self.username, password=new_password)
+        self.assertEqual(authenticate_user_by_username_response.status_code, HTTPStatus.OK)
 
-        updated_user = json.loads(get_user_by_username_response.content.decode())
+        updated_user = json.loads(authenticate_user_by_username_response.content.decode())
         self.assertEqual(updated_user["username"], self.username)
         self.assertEqual(updated_user["email"], new_email)
-        self.assertNotEqual(updated_user["password"], new_password) # Should be hashed
         self.assertEqual(updated_user["first_name"], new_first_name)
         self.assertEqual(updated_user["last_name"], new_last_name)
 
-        get_user_by_email_response1 = user_service.get_user_by_email(self.email)
-        self.assertEqual(get_user_by_email_response1.status_code, HTTPStatus.NOT_FOUND)
+        authenticate_user_by_email_response1 = user_service.authenticate_user_by_email(email=self.email, password=new_password)
+        self.assertEqual(authenticate_user_by_email_response1.status_code, HTTPStatus.NOT_FOUND)
 
-        get_user_by_email_response2 = user_service.get_user_by_email(new_email)
-        self.assertEqual(get_user_by_email_response2.status_code, HTTPStatus.OK)
+        authenticate_user_by_email_response2 = user_service.authenticate_user_by_email(email=new_email, password=new_password)
+        self.assertEqual(authenticate_user_by_email_response2.status_code, HTTPStatus.OK)
 
         user_service.delete_user(self.username)
 
@@ -104,22 +101,22 @@ class UserServiceTests(TestCase):
         user_service.delete_user(self.username)
         user_service.delete_user(username2)
 
-    def test_user_read_failure(self):
+    def test_user_authenticate_failure(self):
         user_service.create_user(self.username, self.email, self.password, self.first_name, self.last_name)
 
         username2 = "jjson"
         email2 = "jojo@mail.com"
         
-        get_user_by_username_response1 = user_service.get_user_by_username(username2)
-        self.assertEqual(get_user_by_username_response1.status_code, HTTPStatus.NOT_FOUND)
+        authenticate_user_by_username_response1 = user_service.authenticate_user_by_username(username=username2, password=self.password)
+        self.assertEqual(authenticate_user_by_username_response1.status_code, HTTPStatus.NOT_FOUND)
 
-        get_user_by_email_response1 = user_service.get_user_by_email(email2)
-        self.assertEqual(get_user_by_email_response1.status_code, HTTPStatus.NOT_FOUND)
+        authenticate_user_by_email_response1 = user_service.authenticate_user_by_email(email=email2, password=self.password)
+        self.assertEqual(authenticate_user_by_email_response1.status_code, HTTPStatus.NOT_FOUND)
 
         user_service.delete_user(self.username)
 
-        get_user_by_username_response2 = user_service.get_user_by_username(self.username)
-        self.assertEqual(get_user_by_username_response2.status_code, HTTPStatus.NOT_FOUND)
+        authenticate_user_by_username_response2 = user_service.authenticate_user_by_username(username=self.username, password=self.password)
+        self.assertEqual(authenticate_user_by_username_response2.status_code, HTTPStatus.NOT_FOUND)
 
-        get_user_by_email_response2 = user_service.get_user_by_email(self.email)
-        self.assertEqual(get_user_by_email_response2.status_code, HTTPStatus.NOT_FOUND)
+        authenticate_user_by_email_response2 = user_service.authenticate_user_by_email(email=self.email, password=self.password)
+        self.assertEqual(authenticate_user_by_email_response2.status_code, HTTPStatus.NOT_FOUND)

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Text, TextInput, View, Pressable } from 'react-native';
+import { Vibe } from '../../client/api/VibeAPI';
 import styles from '../../styles/HomeStyles';
 
 import Navbar from '../Navbar';

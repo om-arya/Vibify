@@ -1,5 +1,5 @@
 import axios, { HttpStatusCode } from 'axios';
-import { DJANGO_URL } from '../../appSecrets.ts';
+import { AUTH_URL } from '../../appSecrets.ts';
 
 // Stop Axios from throwing errors, allowing responses to be handled on the client side
 // regardless of status code
@@ -14,7 +14,7 @@ const DjangoAPI = () => {
      * @returns the server response status code.
      */
     async function acquireCsrfToken() {
-        const response = await axios.get(DJANGO_URL + 'get_csrf_token/', { withCredentials: true });
+        const response = await axios.get(AUTH_URL + 'get_csrf_token/', { withCredentials: true });
         if (response.status !== HttpStatusCode.Ok) {
             return response.status;
         }

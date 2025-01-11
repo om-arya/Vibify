@@ -1,3 +1,5 @@
+import { Vibe } from "../VibeAPI";
+
 const VibeDeserializer = () => {
     /**
      * Deserialize the given array of vibes from

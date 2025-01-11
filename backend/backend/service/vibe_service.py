@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 from http import HTTPStatus
 from django.core.exceptions import ObjectDoesNotExist
-from django.contrib.auth.models import User as UserEntity
+from backend.models import UserEntity
 from backend.models import VibeEntity
 from backend.service.serializer import vibe_serializer
 from django.core.serializers import serialize

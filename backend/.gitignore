@@ -3,6 +3,7 @@ __pycache__
 db.sqlite3
 migrations
 
+# macOS
 .DS_Store
 
 # Virtual environment
@@ -13,5 +14,5 @@ song_data.*
 *.csv
 *.pth
 
-# PostgreSQL
+# Secrets
 app.py

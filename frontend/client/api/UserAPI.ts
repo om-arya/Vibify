@@ -1,7 +1,14 @@
 import axios, { HttpStatusCode } from 'axios';
 import { USER_URL } from '../../appSecrets.ts';
 import ClientState from "../ClientState";
-import UserDeserializer from './deserializer/userDeserializer.ts';
+import UserDeserializer from './deserializer/UserDeserializer.ts';
+
+export interface User {
+    username: string;
+    email: string;
+    firstName: string;
+    lastName: string;
+};
 
 const UserAPI = () => {
     const state = ClientState();
@@ -40,17 +47,20 @@ const UserAPI = () => {
     }
 
     /**
-     * Get the user from the database with the specified username. If the
-     * user does not exist, the server returns a 404 NOT_FOUND HTTP status.
+     * Get the user from the database with the specified username, if the
+     * password is correct. If the password does not match, the server
+     * returns a 401 UNAUTHENTICATED HTTP status. If the username does not
+     * exist, the server returns a 404 NOT_FOUND HTTP status.
      * 
      * @param username of the user to get.
+     * @param password to attempt.
      * @param updateState If true, store the retrieved user in the client
      *                    state.
      * @returns the response status code.
      */
-    async function getUserByUsername({ username, updateState=false }) {
-        const queryString = `?username=${username}`;
-        const response = await axios.get(USER_URL + 'get_user_by_username/' + queryString);
+    async function authenticateUserByUsername({ username, password, updateState=false }) {
+        const queryString = `?username=${username}&password=${password}`;
+        const response = await axios.get(USER_URL + 'authenticate_user_by_username/' + queryString);
         if (!updateState || response.status !== HttpStatusCode.Ok) {
             return response.status as HttpStatusCode;
         }
@@ -62,17 +72,20 @@ const UserAPI = () => {
     }
 
     /**
-     * Get the user from the database with the specified email. If the user
-     * does not exist, the server returns a 404 NOT_FOUND HTTP status.
+     * Get the user from the database with the specified email, if the
+     * password is correct. If the password does not match, the server
+     * returns a 401 UNAUTHENTICATED HTTP status. If the email does not
+     * exist, the server returns a 404 NOT_FOUND HTTP status.
      * 
      * @param email of the user to get.
+     * @param password to attempt.
      * @param updateState If true, store the retrieved user in the client
      *                    state.
      * @returns the response status code.
      */
-    async function getUserByEmail({ email, updateState=false }) {
-        const queryString = `?email=${email}`;
-        const response = await axios.get(USER_URL + 'get_user_by_email/' + queryString);
+    async function authenticateUserByEmail({ email, password, updateState=false }) {
+        const queryString = `?email=${email}&password=${password}`;
+        const response = await axios.get(USER_URL + 'authenticate_user_by_email/' + queryString);
         if (!updateState || response.status !== HttpStatusCode.Ok) {
             return response.status as HttpStatusCode;
         }
@@ -182,7 +195,7 @@ const UserAPI = () => {
         return response.status as HttpStatusCode;
     }
 
-    return { createUser, getUserByUsername, getUserByEmail, setUserFirstName, setUserLastName, setUserEmail,
+    return { createUser, authenticateUserByUsername, authenticateUserByEmail, setUserFirstName, setUserLastName, setUserEmail,
              setUserPassword, deleteUser }
 }
 

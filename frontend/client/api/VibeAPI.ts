@@ -1,7 +1,13 @@
 import axios, { HttpStatusCode } from 'axios';
 import { VIBE_URL } from '../../appSecrets.ts';
+import { User } from './UserAPI.ts';
 import ClientState from "../ClientState";
 import VibeDeserializer from './deserializer/VibeDeserializer.ts';
+
+export interface Vibe {
+    name: string;
+    color: string;
+};
 
 const VibeAPI = () => {
     const state = ClientState();

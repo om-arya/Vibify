@@ -1,14 +1,14 @@
 import { HttpStatusCode } from 'axios';
-import DjangoAPI from '../../client/api/DjangoAPI';
+import AuthAPI from '../../client/api/AuthAPI';
 import UserAPI from '../../client/api/UserAPI';
 import ClientState from '../../client/ClientState';
 
-const djangoAPI = DjangoAPI();
+const authAPI = AuthAPI();
 const userAPI = UserAPI();
 const state = ClientState();
 
 beforeAll(async () => {
-    await djangoAPI.acquireCsrfToken();
+    await authAPI.acquireCsrfToken();
 });
 
 afterEach(async () => {
@@ -25,7 +25,7 @@ test('Create a user and delete it', async () => {
         username: "bob123",
         email: "bob@mail.com",
         password: "bobpass",
-        firstName: "Bob",
+        firstName: "Bob Bob",
         lastName: "Smith",
         updateState: true
     });
@@ -81,7 +81,7 @@ test('Fail to create a user with a used email', async () => {
     expect(createUserStatus2).toBe(HttpStatusCode.Conflict);
 });
 
-test('Get an existing user by username and email', async () => {
+test('Authenticate a user by username and email', async () => {
     const createUserStatus = await userAPI.createUser({
         username: "bob123",
         email: "bob@mail.com",
@@ -92,27 +92,65 @@ test('Get an existing user by username and email', async () => {
     });
     expect(createUserStatus).toBe(HttpStatusCode.Created);
 
-    const getUserByUsernameStatus = await userAPI.getUserByUsername({
-        username: "bob123"
+    const authenticateUserByUsernameStatus = await userAPI.authenticateUserByUsername({
+        username: "bob123",
+        password: "bobpass"
     });
-    expect(getUserByUsernameStatus).toBe(HttpStatusCode.Ok);
+    expect(authenticateUserByUsernameStatus).toBe(HttpStatusCode.Ok);
 
-    const getUserByEmailStatus = await userAPI.getUserByEmail({
-        email: "bob@mail.com"
+    const authenticateUserByEmailStatus = await userAPI.authenticateUserByEmail({
+        email: "bob@mail.com",
+        password: "bobpass"
     });
-    expect(getUserByEmailStatus).toBe(HttpStatusCode.Ok);
+    expect(authenticateUserByEmailStatus).toBe(HttpStatusCode.Ok);
 });
 
-test('Fail to get a nonexistent user by username and email', async () => {
-    const getUserByUsernameStatus = await userAPI.getUserByUsername({
-        username: "bob123"
+test('Attempt to authenticate a user by username and email', async () => {
+    const createUserStatus = await userAPI.createUser({
+        username: "bob123",
+        email: "bob@mail.com",
+        password: "bobpass",
+        firstName: "Bob",
+        lastName: "Smith",
+        updateState: true
     });
-    expect(getUserByUsernameStatus).toBe(HttpStatusCode.NotFound);
+    expect(createUserStatus).toBe(HttpStatusCode.Created);
 
-    const getUserByEmailStatus = await userAPI.getUserByEmail({
-        email: "bob@mail.com"
+    const authenticateUserByUsernameStatus1 = await userAPI.authenticateUserByUsername({
+        username: "ghost",
+        password: "bobpass"
     });
-    expect(getUserByEmailStatus).toBe(HttpStatusCode.NotFound);
+    expect(authenticateUserByUsernameStatus1).toBe(HttpStatusCode.NotFound);
+
+    const authenticateUserByUsernameStatus2 = await userAPI.authenticateUserByUsername({
+        username: "bob123",
+        password: "bobpa"
+    });
+    expect(authenticateUserByUsernameStatus2).toBe(HttpStatusCode.Unauthorized);
+
+    const authenticateUserByUsernameStatus3 = await userAPI.authenticateUserByUsername({
+        username: "bob123",
+        password: "bobpass"
+    });
+    expect(authenticateUserByUsernameStatus3).toBe(HttpStatusCode.Ok);
+
+    const authenticateUserByEmailStatus1 = await userAPI.authenticateUserByEmail({
+        email: "ghost@mail.com",
+        password: "bobpass"
+    });
+    expect(authenticateUserByEmailStatus1).toBe(HttpStatusCode.NotFound);
+
+    const authenticateUserByEmailStatus2 = await userAPI.authenticateUserByEmail({
+        email: "bob@mail.com",
+        password: "bobpa"
+    });
+    expect(authenticateUserByEmailStatus2).toBe(HttpStatusCode.Unauthorized);
+
+    const authenticateUserByEmailStatus3 = await userAPI.authenticateUserByEmail({
+        email: "bob@mail.com",
+        password: "bobpass"
+    });
+    expect(authenticateUserByEmailStatus3).toBe(HttpStatusCode.Ok);
 });
 
 test('Update a user\'s fields', async () => {
@@ -149,11 +187,12 @@ test('Update a user\'s fields', async () => {
     });
     expect(setUserPasswordStatus).toBe(HttpStatusCode.Ok);
 
-    const getUserByUsernameStatus = await userAPI.getUserByUsername({
+    const authenticateUserByUsernameStatus = await userAPI.authenticateUserByUsername({
         username: "bob123",
+        password: "johnpass",
         updateState: true
     })
-    expect(getUserByUsernameStatus).toBe(HttpStatusCode.Ok);
+    expect(authenticateUserByUsernameStatus).toBe(HttpStatusCode.Ok);
 
     const updatedUser = state.getUser();
     expect(updatedUser.username).toBe("bob123");
@@ -173,18 +212,20 @@ test('Delete a user and fail to get it', async () => {
     });
     expect(createUserStatus).toBe(HttpStatusCode.Created);
 
-    const getUserStatus1 = await userAPI.getUserByUsername({
-        username: "bob123"
+    const authenticateUserByUsernameStatus1 = await userAPI.authenticateUserByUsername({
+        username: "bob123",
+        password: "bobpass"
     });
-    expect(getUserStatus1).toBe(HttpStatusCode.Ok);
+    expect(authenticateUserByUsernameStatus1).toBe(HttpStatusCode.Ok);
 
     const deleteUserStatus = await userAPI.deleteUser({
         updateState: true
     });
     expect(deleteUserStatus).toBe(HttpStatusCode.Ok);
 
-    const getUserStatus2 = await userAPI.getUserByUsername({
-        username: "bob123"
+    const authenticateUserByUsernameStatus2 = await userAPI.authenticateUserByUsername({
+        username: "bob123",
+        password: "bobpass"
     });
-    expect(getUserStatus2).toBe(HttpStatusCode.NotFound);
+    expect(authenticateUserByUsernameStatus2).toBe(HttpStatusCode.NotFound);
 });

@@ -1,3 +1,6 @@
+import { User } from "./api/UserAPI";
+import { Vibe } from "./api/VibeAPI";
+
 const sessionStorage = require('sessionstorage'); // For testing via Jest
 
 /**
