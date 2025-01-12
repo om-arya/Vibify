@@ -33,15 +33,16 @@ valid credentials. Otherwise, return an error.
 def authenticate_user_by_username(username: str, password: str) -> HttpResponse:
     try:
         user = UserEntity.objects.authenticate(username=username, password=password)
-        if user:
-            user_json = user_serializer.to_json(user)
-            return HttpResponse(user_json, content_type="application/json", status=HTTPStatus.OK)
-        else:
-            return HttpResponse("Credentials are invalid", status=HTTPStatus.UNAUTHORIZED)
     except ObjectDoesNotExist:
         return HttpResponse(f"User with username '{username}' does not exist", status=HTTPStatus.NOT_FOUND)
     except Exception as e:
         return HttpResponse(f"Caught exception: {e}", status=HTTPStatus.INTERNAL_SERVER_ERROR)
+    
+    if user:
+        user_json = user_serializer.to_json(user)
+        return HttpResponse(user_json, content_type="application/json", status=HTTPStatus.OK)
+    else:
+        return HttpResponse("Credentials are invalid", status=HTTPStatus.UNAUTHORIZED)
 
 """
 Return the user if the given email and password are
@@ -50,15 +51,16 @@ valid credentials. Otherwise, return an error.
 def authenticate_user_by_email(email: str, password: str) -> HttpResponse:
     try:
         user = UserEntity.objects.authenticate(email=email, password=password)
-        if user:
-            user_json = user_serializer.to_json(user)
-            return HttpResponse(user_json, content_type="application/json", status=HTTPStatus.OK)
-        else:
-            return HttpResponse("Credentials are invalid", status=HTTPStatus.UNAUTHORIZED)
     except ObjectDoesNotExist:
         return HttpResponse(f"User with email '{email}' does not exist", status=HTTPStatus.NOT_FOUND)
     except Exception as e:
         return HttpResponse(f"Caught exception: {e}", status=HTTPStatus.INTERNAL_SERVER_ERROR)
+    
+    if user:
+        user_json = user_serializer.to_json(user)
+        return HttpResponse(user_json, content_type="application/json", status=HTTPStatus.OK)
+    else:
+        return HttpResponse("Credentials are invalid", status=HTTPStatus.UNAUTHORIZED)
     
 """
 Update the email address of the user with the given

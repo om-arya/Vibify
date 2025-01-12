@@ -56,12 +56,13 @@ If the vibe is not found, return an error.
 def get_vibe(username: str, name: str) -> HttpResponse:
     try:
         vibe = VibeEntity.objects.get(user__username=username, name=name)
-        vibe_json = vibe_serializer.to_json(vibe)
-        return HttpResponse(vibe_json, status=HTTPStatus.OK)
     except ObjectDoesNotExist:
         return HttpResponse(f"Vibe with name '{name}' not found for user '{username}'", status=HTTPStatus.NOT_FOUND)
     except Exception as e:
         return HttpResponse(f"Caught exception: {e}", status=HTTPStatus.INTERNAL_SERVER_ERROR)
+    
+    vibe_json = vibe_serializer.to_json(vibe)
+    return HttpResponse(vibe_json, status=HTTPStatus.OK)
 
 """
 Return all vibes belonging to the given user.
